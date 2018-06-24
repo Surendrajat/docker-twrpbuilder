@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Required packages
 RUN apt-get -qq update && \
-    apt-get install -y --no-install-recommends aria2 bison g++-multilib git make python zip && \
+    apt-get install -y --no-install-recommends bison g++-multilib git make python zip && \
     rm -rf /var/lib/apt/lists/*
 
 ENV DEBAIN_FRONTEND teletype
