@@ -1,5 +1,3 @@
-## Minimal Docker image for TWRP-Builder project
-
 FROM openjdk:8-slim
 MAINTAINER Surendrajat <sk2812283@gmail.com>
 
