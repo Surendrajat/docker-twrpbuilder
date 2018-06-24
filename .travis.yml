@@ -1,0 +1,28 @@
+sudo: true
+services:
+  - docker
+env:
+  global:
+    - IMAGE_NAME=$DOCKER_USERNAME/twrp-builder
+
+jobs:
+  include:
+    - stage: build n push
+      before_script:
+        - version="$(awk '$2 == "CAKE_SERVICE_VERSION" { print $3; exit }' Dockerfile)"
+        - docker pull "$IMAGE_NAME" || true
+      script:
+        - docker build --pull --cache-from "$IMAGE_NAME" --tag "$IMAGE_NAME" .
+      after_script:
+        - docker images
+      before_deploy:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest"
+      deploy:
+        provider: script
+        script: docker push "${IMAGE_NAME}:latest"
+        on:
+          branch: master
+    - stage: test
+      script: docker run --rm $IMAGE_NAME echo "Hello Docker"
+    - script: docker run --rm $IMAGE_NAME java -version
