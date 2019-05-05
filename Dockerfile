@@ -9,6 +9,3 @@ RUN apt-get -qq update && \
     rm -rf /var/lib/apt/lists/*
 
 ENV DEBAIN_FRONTEND teletype
-
-# External mount point for travis-ci and alike
-VOLUME /root/twrp
